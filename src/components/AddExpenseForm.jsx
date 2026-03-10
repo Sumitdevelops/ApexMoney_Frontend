@@ -135,25 +135,29 @@ export function AddExpenseForm({ expenseToEdit, onFormSubmit, onCancelEdit }) {
         setToastMessage("Your expense has been saved.");
       }
 
-      if (response.data) {
-        if (onFormSubmit) {
-          onFormSubmit();
-        }
-        if (!formData._id) {
-          localStorage.setItem('dashboardActiveTab', 'expenseList');
-          navigate('/dashboard');
-        } else {
-
-          setShowToast(true);
-          setFormData(initialState);
-        }
-
+      if (onFormSubmit) {
+        onFormSubmit();
+      }
+      if (!formData._id) {
+        localStorage.setItem('dashboardActiveTab', 'expenseList');
+        navigate('/dashboard');
       } else {
-        alert(response.data.message || "An unknown error occurred.");
+        setShowToast(true);
+        setFormData(initialState);
       }
     } catch (error) {
-      console.log(error);
-      alert("Error saving expense. Please try again.");
+      console.error("Expense save error:", error);
+      const backendMessage = error.response?.data?.message;
+      const validationErrors = error.response?.data?.errors;
+
+      if (validationErrors) {
+        const messages = validationErrors.map(e => `${e.field}: ${e.message}`).join('\n');
+        alert(`Validation failed:\n${messages}`);
+      } else if (backendMessage) {
+        alert(backendMessage);
+      } else {
+        alert("Error saving expense. Please try again.");
+      }
     }
   };
   if (!user) {
