@@ -3,7 +3,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// --- Heroicon SVG Components ---
 const UserPlusIcon = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.5 21c-2.305 0-4.47-.612-6.337-1.664z" />
@@ -43,17 +42,14 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section className="bg-gradient-to-br from-purple-600 to-indigo-700 overflow-hidden">
-      {/* Set responsive padding: smaller on mobile, larger on desktop */}
+    <section className="bg-gradient-to-br from-purple-600 to-indigo-700 dark:from-indigo-900 dark:to-purple-950 overflow-hidden">
       <div className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:py-24 lg:px-8">
-        {/* Adjusted gaps for better mobile spacing */}
         <div className="grid grid-cols-1 items-center gap-y-12 gap-x-12 lg:grid-cols-2">
           
           <div className="flex items-center justify-center">
             <img
                 src="./App_Mockup.png"
                 alt="ApexMoney Dashboard View"
-                // KEY FIX: Ensure image is responsive and doesn't exceed its container width
                 className="w-full max-w-sm rounded-2xl shadow-2xl"
             />
           </div>
@@ -63,11 +59,10 @@ export default function HowItWorks() {
               <span className="rounded-full bg-white/10 px-3 py-1 text-sm font-semibold leading-6 text-white ring-1 ring-inset ring-white/20">
                 How It Works
               </span>
-              {/* Responsive text size is already good */}
               <h2 className="mt-6 text-3xl font-bold tracking-tight text-white sm:text-4xl">
                 Master Your Money in 3 Simple Steps
               </h2>
-              <p className="mt-4 text-lg leading-8 text-indigo-100">
+              <p className="mt-4 text-lg leading-8 text-indigo-100 dark:text-indigo-200">
                 It's quick, easy, and stress-free to stay on top of your money — no technical skills required.
               </p>
             </div>
@@ -80,13 +75,13 @@ export default function HowItWorks() {
                   </div>
                   <div>
                     <dt className="font-semibold text-white">{step.name}</dt>
-                    <dd className="mt-1 text-indigo-100">{step.description}</dd>
+                    <dd className="mt-1 text-indigo-100 dark:text-indigo-200">{step.description}</dd>
                   </div>
                 </div>
               ))}
             </dl>
 
-            <Link to="/signup/login" className="mt-10 inline-block bg-white text-purple-600 font-semibold py-3 px-6 rounded-lg transition-transform duration-300 hover:scale-105 shadow-lg">
+            <Link to="/signup/login" className="mt-10 inline-block bg-white dark:bg-amber-500 text-purple-600 dark:text-gray-900 font-semibold py-3 px-6 rounded-lg transition-transform duration-300 hover:scale-105 shadow-lg">
                 Start for Free
             </Link>
           </div>
