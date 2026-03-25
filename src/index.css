@@ -121,37 +121,37 @@
 }
 
 .dark {
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.92 0.004 286.32);
-  --primary-foreground: oklch(0.21 0.006 285.885);
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.552 0.016 285.938);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.552 0.016 285.938);
+  --background: #0f0e17;
+  --foreground: #e8e0d4;
+  --card: #1a1a2e;
+  --card-foreground: #e8e0d4;
+  --popover: #1a1a2e;
+  --popover-foreground: #e8e0d4;
+  --primary: #f59e0b;
+  --primary-foreground: #0f0e17;
+  --secondary: #1e1e32;
+  --secondary-foreground: #e8e0d4;
+  --muted: #252540;
+  --muted-foreground: #9ca3af;
+  --accent: #2d2b55;
+  --accent-foreground: #fbbf24;
+  --destructive: #ef4444;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #f59e0b;
+  --chart-1: #818cf8;
+  --chart-2: #34d399;
+  --chart-3: #fbbf24;
+  --chart-4: #f472b6;
+  --chart-5: #a78bfa;
+  --sidebar: #0f0e17;
+  --sidebar-foreground: #e8e0d4;
+  --sidebar-primary: #f59e0b;
+  --sidebar-primary-foreground: #0f0e17;
+  --sidebar-accent: #252540;
+  --sidebar-accent-foreground: #fbbf24;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-ring: #f59e0b;
 }
 
 @layer base {
@@ -168,4 +168,146 @@
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
+}
+
+/* ===== Dark Mode Ambient Animations ===== */
+
+/* Twinkle animation for stars */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Float animation for fireflies */
+@keyframes firefly-float {
+  0% { transform: translate(0, 0) scale(1); opacity: 0; }
+  10% { opacity: 1; }
+  50% { transform: translate(30px, -40px) scale(1.3); opacity: 0.8; }
+  90% { opacity: 1; }
+  100% { transform: translate(-20px, 20px) scale(0.8); opacity: 0; }
+}
+
+/* Shooting star animation */
+@keyframes shooting-star {
+  0% { transform: translateX(0) translateY(0) rotate(-45deg); opacity: 0; width: 0; }
+  5% { opacity: 1; width: 80px; }
+  15% { opacity: 1; }
+  30% { transform: translateX(-300px) translateY(300px) rotate(-45deg); opacity: 0; width: 0; }
+  100% { opacity: 0; width: 0; }
+}
+
+/* Aurora glow animation */
+@keyframes aurora-shift {
+  0% { background-position: 0% 50%; opacity: 0.15; }
+  25% { opacity: 0.25; }
+  50% { background-position: 100% 50%; opacity: 0.15; }
+  75% { opacity: 0.2; }
+  100% { background-position: 0% 50%; opacity: 0.15; }
+}
+
+/* Ambient element styles */
+.ambient-star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle ease-in-out infinite;
+}
+
+.ambient-firefly {
+  position: absolute;
+  border-radius: 50%;
+  animation: firefly-float ease-in-out infinite;
+  filter: blur(0.5px);
+}
+
+.ambient-shooting-star {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), transparent);
+  border-radius: 100px;
+  animation: shooting-star linear infinite;
+}
+
+.ambient-aurora {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.08) 0%,
+    rgba(168, 85, 247, 0.06) 25%,
+    rgba(245, 158, 11, 0.04) 50%,
+    rgba(59, 130, 246, 0.06) 75%,
+    rgba(99, 102, 241, 0.08) 100%
+  );
+  background-size: 400% 400%;
+  animation: aurora-shift 20s ease infinite;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+/* Planet floating animation */
+@keyframes planet-float {
+  0% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(5px, -8px) scale(1.02); }
+  50% { transform: translate(-3px, 4px) scale(0.98); }
+  75% { transform: translate(7px, 2px) scale(1.01); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+/* Asteroid drifting across screen */
+@keyframes asteroid-drift {
+  0% { left: 110%; opacity: 0; transform: rotate(0deg); }
+  5% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { left: -5%; opacity: 0; transform: rotate(720deg); }
+}
+
+/* Spaceship flying across */
+@keyframes spaceship-fly {
+  0% { left: -10%; opacity: 0; transform: translateY(0); }
+  5% { opacity: 0.8; }
+  25% { transform: translateY(-8px); }
+  50% { transform: translateY(5px); }
+  75% { transform: translateY(-3px); }
+  90% { opacity: 0.8; }
+  100% { left: 110%; opacity: 0; transform: translateY(0); }
+}
+
+/* Planet glow pulse */
+@keyframes planet-glow {
+  0%, 100% { box-shadow: 0 0 15px 5px rgba(245, 158, 11, 0.1); }
+  50% { box-shadow: 0 0 25px 10px rgba(245, 158, 11, 0.2); }
+}
+
+.ambient-planet {
+  position: absolute;
+  border-radius: 50%;
+  animation: planet-float ease-in-out infinite, planet-glow 4s ease-in-out infinite;
+  opacity: 0.35;
+  filter: blur(0.3px);
+}
+
+.ambient-asteroid {
+  position: absolute;
+  background: linear-gradient(135deg, #6b7280, #4b5563, #374151);
+  border-radius: 40% 60% 50% 40%;
+  animation: asteroid-drift linear infinite;
+  opacity: 0.5;
+  box-shadow: 0 0 4px 1px rgba(107, 114, 128, 0.3);
+}
+
+.ambient-spaceship {
+  position: absolute;
+  animation: spaceship-fly linear infinite;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.4));
+}
+
+/* Smooth dark mode transition for all elements */
+.dark body,
+.dark * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.15s ease;
 }

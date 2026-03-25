@@ -3,7 +3,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// ---------------- Icons ----------------
 const StarIcon = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" {...props}>
     <path
@@ -24,7 +23,6 @@ const CheckIcon = (props) => (
   </svg>
 );
 
-// ---------------- Pricing Data ----------------
 const plans = [
   {
     name: "Starter",
@@ -66,7 +64,6 @@ const plans = [
   },
 ];
 
-// ---------------- Component ----------------
 export default function Pricing() {
   return (
     <section className="py-24">
@@ -74,13 +71,13 @@ export default function Pricing() {
 
         {/* Header */}
         <div className="mx-auto max-w-4xl text-center">
-          <p className="font-semibold leading-7 text-purple-600">Pricing</p>
-          <h2 className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+          <p className="font-semibold leading-7 text-purple-600 dark:text-amber-400">Pricing</p>
+          <h2 className="mt-2 text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl">
             The Right Plan for Your Needs
           </h2>
         </div>
 
-        <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
+        <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600 dark:text-gray-400">
           Simple, transparent pricing. Choose the plan that helps you achieve your financial goals.
         </p>
 
@@ -90,47 +87,47 @@ export default function Pricing() {
             <div
               key={plan.name}
               className={`rounded-3xl p-8 transition-all duration-300 ${plan.popular
-                ? "bg-white ring-2 ring-purple-600 shadow-2xl scale-105"
-                : "bg-gray-50 ring-1 ring-gray-200 lg:hover:scale-105"
+                ? "bg-white dark:bg-gray-800/80 ring-2 ring-purple-600 dark:ring-amber-500 shadow-2xl dark:shadow-amber-500/10 scale-105"
+                : "bg-gray-50 dark:bg-gray-800/40 ring-1 ring-gray-200 dark:ring-white/10 lg:hover:scale-105"
                 }`}
             >
               <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold leading-8 text-gray-900">
+                <h3 className="text-lg font-semibold leading-8 text-gray-900 dark:text-gray-100">
                   {plan.name}
                 </h3>
 
                 {plan.popular && (
-                  <p className="flex items-center gap-x-1 rounded-full bg-purple-100 px-2.5 py-1 text-xs font-semibold leading-5 text-purple-600">
+                  <p className="flex items-center gap-x-1 rounded-full bg-purple-100 dark:bg-amber-500/15 px-2.5 py-1 text-xs font-semibold leading-5 text-purple-600 dark:text-amber-400">
                     <StarIcon className="w-4 h-4" /> Most Popular
                   </p>
                 )}
               </div>
 
               <p className="mt-4 flex items-baseline gap-x-1">
-                <span className="text-4xl font-bold tracking-tight text-gray-900">
+                <span className="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
                   {plan.price}
                 </span>
-                <span className="text-sm font-semibold leading-6 text-gray-600">/month</span>
+                <span className="text-sm font-semibold leading-6 text-gray-600 dark:text-gray-400">/month</span>
               </p>
 
-              <p className="mt-6 text-base leading-7 text-gray-600">
+              <p className="mt-6 text-base leading-7 text-gray-600 dark:text-gray-400">
                 {plan.description}
               </p>
 
               <Link
                 to={plan.href}
                 className={`mt-8 block rounded-md py-2.5 px-3.5 text-center text-sm font-semibold leading-6 transition-colors ${plan.popular
-                  ? "bg-purple-600 text-white shadow-sm hover:bg-purple-500"
-                  : "bg-white text-purple-600 ring-1 ring-inset ring-purple-200 hover:bg-purple-50"
+                  ? "bg-purple-600 dark:bg-amber-500 text-white dark:text-gray-900 shadow-sm hover:bg-purple-500 dark:hover:bg-amber-600"
+                  : "bg-white dark:bg-white/5 text-purple-600 dark:text-amber-400 ring-1 ring-inset ring-purple-200 dark:ring-amber-500/30 hover:bg-purple-50 dark:hover:bg-white/10"
                   }`}
               >
                 Get Started
               </Link>
 
-              <ul className="mt-10 space-y-3 text-sm leading-6 text-gray-600">
+              <ul className="mt-10 space-y-3 text-sm leading-6 text-gray-600 dark:text-gray-400">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex gap-x-3">
-                    <CheckIcon className="h-6 w-5 flex-none text-purple-600" />
+                    <CheckIcon className="h-6 w-5 flex-none text-purple-600 dark:text-amber-400" />
                     {feature}
                   </li>
                 ))}

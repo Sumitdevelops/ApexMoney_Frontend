@@ -234,7 +234,7 @@ const SmartInsights = ({ userId }) => {
                             <span className="text-2xl">🧠</span>
                             <h1 className="text-2xl md:text-3xl font-black text-white">Apex AI Insights</h1>
                             <span className="px-2 py-0.5 rounded-full bg-indigo-500/30 text-indigo-300 text-[10px] sm:text-xs font-bold uppercase tracking-wider border border-indigo-500/30 whitespace-nowrap">
-                                Powered by Groq AI
+                                Apex AI
                             </span>
                         </div>
                         <p className="text-gray-400 text-sm max-w-lg mb-4">

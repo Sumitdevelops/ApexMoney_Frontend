@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutDashboard, TrendingUp, TrendingDown, Target, Brain, CreditCard, FileDown, LogOut, Menu, X, Settings } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
+import ThemeToggle from '../ThemeToggle';
 
 const DashboardSidebar = ({ isOpen, setIsOpen, activeTab, handleTabChange }) => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const DashboardSidebar = ({ isOpen, setIsOpen, activeTab, handleTabChange }) => 
     { key: 'reports', label: 'Export Reports', icon: FileDown },
     { key: 'settings', label: 'Settings', icon: Settings },
   ];
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768) {
@@ -29,13 +31,12 @@ const DashboardSidebar = ({ isOpen, setIsOpen, activeTab, handleTabChange }) => 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [setIsOpen]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
-
       if (toggleButtonRef.current && toggleButtonRef.current.contains(event.target)) {
         return;
       }
-
       if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
         setIsOpen(false);
       }
@@ -68,13 +69,12 @@ const DashboardSidebar = ({ isOpen, setIsOpen, activeTab, handleTabChange }) => 
       <AnimatePresence>
         {isOpen && (
           <motion.aside
-
             ref={sidebarRef}
             initial="closed"
             animate="open"
             exit="closed"
             variants={sidebarVariants}
-            className="fixed top-0 left-0 h-screen z-40 bg-indigo-600 text-white flex flex-col py-6 px-4 shadow-xl"
+            className="fixed top-0 left-0 h-screen z-40 bg-indigo-600 dark:bg-gray-900/95 dark:backdrop-blur-xl dark:border-r dark:border-white/5 text-white flex flex-col py-6 px-4 shadow-xl"
           >
             <motion.div
               initial="closed"
@@ -84,7 +84,7 @@ const DashboardSidebar = ({ isOpen, setIsOpen, activeTab, handleTabChange }) => 
               className="flex flex-col h-full"
             >
               <Link to="/" className="text-center transition hover:opacity-80">
-                <h2 className="text-2xl font-bold mb-8">Dashboard</h2>
+                <h2 className="text-2xl font-bold mb-8 dark:text-amber-400">Dashboard</h2>
               </Link>
 
               <nav className="flex flex-col space-y-2">
@@ -98,8 +98,8 @@ const DashboardSidebar = ({ isOpen, setIsOpen, activeTab, handleTabChange }) => 
                       }
                     }}
                     className={`py-2 px-4 rounded-lg text-left transition flex items-center gap-3 ${activeTab === item.key
-                        ? 'bg-white text-indigo-600 font-semibold'
-                        : 'hover:bg-indigo-500'
+                        ? 'bg-white text-indigo-600 font-semibold dark:bg-amber-500/20 dark:text-amber-400'
+                        : 'hover:bg-indigo-500 dark:hover:bg-white/5 dark:text-gray-300'
                       }`}
                   >
                     <item.icon size={18} />
@@ -110,10 +110,16 @@ const DashboardSidebar = ({ isOpen, setIsOpen, activeTab, handleTabChange }) => 
 
               <div className="mt-auto"></div>
 
-              <hr className="my-4 border-indigo-400" />
+              {/* Theme Toggle */}
+              <div className="flex items-center justify-between px-2 py-3 mb-2">
+                <span className="text-sm font-medium text-indigo-200 dark:text-gray-400">Theme</span>
+                <ThemeToggle />
+              </div>
+
+              <hr className="my-2 border-indigo-400 dark:border-gray-700" />
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-3 w-full py-2 px-4 rounded-lg text-left text-red-200 hover:bg-red-500 hover:text-white transition"
+                className="flex items-center gap-3 w-full py-2 px-4 rounded-lg text-left text-red-200 hover:bg-red-500 hover:text-white dark:text-red-400 dark:hover:bg-red-500/20 transition"
               >
                 <LogOut size={20} />
                 <span className="font-semibold">Logout</span>
@@ -126,16 +132,13 @@ const DashboardSidebar = ({ isOpen, setIsOpen, activeTab, handleTabChange }) => 
       <motion.button
         ref={toggleButtonRef}
         onClick={() => setIsOpen(!isOpen)}
-
         animate={{ left: isOpen ? '15.5rem' : '1rem' }}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-        whileHover={{ scale: 1.1, backgroundColor: '#4338ca' }}
+        whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-
-        className="fixed top-4 w-11 h-11 bg-indigo-600 text-white rounded-full flex items-center justify-center z-50 shadow-lg hover:shadow-xl transition-shadow duration-300"
+        className="fixed top-4 w-11 h-11 bg-indigo-600 dark:bg-amber-500 text-white dark:text-gray-900 rounded-full flex items-center justify-center z-50 shadow-lg hover:shadow-xl transition-shadow duration-300"
         aria-label="Toggle Sidebar"
       >
-        { }
         <AnimatePresence initial={false} mode="wait">
           <motion.div
             key={isOpen ? 'close' : 'menu'}
