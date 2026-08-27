@@ -8,7 +8,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -16,9 +16,35 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+
+    // Release signing — load keystore info from environment variables or local.properties
+    // To configure:
+    //   1. Generate keystore:  keytool -genkey -v -keystore apexmoney-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias apexmoney
+    //   2. Set env vars: APEXMONEY_KEYSTORE_PATH, APEXMONEY_KEYSTORE_PASSWORD, APEXMONEY_KEY_ALIAS, APEXMONEY_KEY_PASSWORD
+    //   OR add to local.properties (gitignored):
+    //     APEXMONEY_KEYSTORE_PATH=../apexmoney-release-key.jks
+    //     APEXMONEY_KEYSTORE_PASSWORD=your_password
+    //     APEXMONEY_KEY_ALIAS=apexmoney
+    //     APEXMONEY_KEY_PASSWORD=your_key_password
+    signingConfigs {
+        release {
+            def props = new Properties()
+            def localPropsFile = rootProject.file("local.properties")
+            if (localPropsFile.exists()) {
+                props.load(new FileInputStream(localPropsFile))
+            }
+
+            storeFile file(System.getenv("APEXMONEY_KEYSTORE_PATH") ?: props.getProperty("APEXMONEY_KEYSTORE_PATH", "apexmoney-release-key.jks"))
+            storePassword System.getenv("APEXMONEY_KEYSTORE_PASSWORD") ?: props.getProperty("APEXMONEY_KEYSTORE_PASSWORD", "")
+            keyAlias System.getenv("APEXMONEY_KEY_ALIAS") ?: props.getProperty("APEXMONEY_KEY_ALIAS", "apexmoney")
+            keyPassword System.getenv("APEXMONEY_KEY_PASSWORD") ?: props.getProperty("APEXMONEY_KEY_PASSWORD", "")
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useUser } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
-import SmartInsights from '../components/ai/SmartInsights';
-import FinancialGoals from '../components/goals/FinancialGoals';
-import SubscriptionTracker from '../components/subscriptions/SubscriptionTracker';
+
+// Lazy-load heavy feature components so they don't bloat the main bundle
+const SmartInsights = lazy(() => import('../components/ai/SmartInsights'));
+const FinancialGoals = lazy(() => import('../components/goals/FinancialGoals'));
+const SubscriptionTracker = lazy(() => import('../components/subscriptions/SubscriptionTracker'));
+
+const SectionLoader = () => (
+  <div className="flex justify-center items-center py-20">
+    <div className="animate-spin rounded-full h-10 w-10 border-t-3 border-b-3 border-purple-600"></div>
+  </div>
+);
 
 export default function PremiumFeatures() {
     const { user } = useUser();
@@ -58,7 +66,9 @@ export default function PremiumFeatures() {
                             Get personalized financial insights powered by AI
                         </p>
                     </div>
-                    <SmartInsights userId={user._id} />
+                    <Suspense fallback={<SectionLoader />}>
+                        <SmartInsights userId={user._id} />
+                    </Suspense>
                 </section>
 
                 {/* Financial Goals Section */}
@@ -71,7 +81,9 @@ export default function PremiumFeatures() {
                             Track your progress towards financial freedom
                         </p>
                     </div>
-                    <FinancialGoals userId={user._id} />
+                    <Suspense fallback={<SectionLoader />}>
+                        <FinancialGoals userId={user._id} />
+                    </Suspense>
                 </section>
 
                 {/* Subscription Tracker Section */}
@@ -84,7 +96,9 @@ export default function PremiumFeatures() {
                             Auto-detect and manage all your subscriptions in one place
                         </p>
                     </div>
-                    <SubscriptionTracker userId={user._id} />
+                    <Suspense fallback={<SectionLoader />}>
+                        <SubscriptionTracker userId={user._id} />
+                    </Suspense>
                 </section>
             </div>
         </div>

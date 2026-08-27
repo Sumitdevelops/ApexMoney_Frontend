@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 /**
  * Detects if the app is running inside Capacitor (native mobile) or in a browser.
@@ -11,6 +11,7 @@ export const useIsMobile = () => {
     // Fallback: check screen width for mobile browsers
     return window.innerWidth < 768;
   });
+  const resizeTimer = useRef(null);
 
   useEffect(() => {
     // If native, always mobile
@@ -19,9 +20,18 @@ export const useIsMobile = () => {
       return;
     }
 
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    // Debounced resize handler — 150ms delay prevents rapid-fire re-renders
+    const handleResize = () => {
+      if (resizeTimer.current) clearTimeout(resizeTimer.current);
+      resizeTimer.current = setTimeout(() => {
+        setIsMobile(window.innerWidth < 768);
+      }, 150);
+    };
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (resizeTimer.current) clearTimeout(resizeTimer.current);
+    };
   }, []);
 
   return isMobile;

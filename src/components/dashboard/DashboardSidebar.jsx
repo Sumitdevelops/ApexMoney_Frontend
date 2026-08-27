@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutDashboard, TrendingUp, TrendingDown, Target, Brain, CreditCard, FileDown, LogOut, Menu, X, Settings } from 'lucide-react';
+import { LayoutDashboard, TrendingUp, TrendingDown, Target, Brain, CreditCard, FileDown, LogOut, Menu, X, Settings, Crown, Sparkles } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
-import ThemeToggle from '../ThemeToggle';
+
 
 const DashboardSidebar = ({ isOpen, setIsOpen, activeTab, handleTabChange }) => {
   const navigate = useNavigate();
-  const { logout } = useUser();
+  const { logout, subscriptionTier, requireTierOrPaywall } = useUser();
   const sidebarRef = useRef(null);
   const toggleButtonRef = useRef(null);
 
@@ -108,15 +108,30 @@ const DashboardSidebar = ({ isOpen, setIsOpen, activeTab, handleTabChange }) => 
                 ))}
               </nav>
 
-              <div className="mt-auto"></div>
-
-              {/* Theme Toggle */}
-              <div className="flex items-center justify-between px-2 py-3 mb-2">
-                <span className="text-sm font-medium text-indigo-200 dark:text-gray-400">Theme</span>
-                <ThemeToggle />
+              {/* Subscription Badge */}
+              <div className="mt-4 px-1">
+                {subscriptionTier === 'free' ? (
+                  <button
+                    onClick={() => requireTierOrPaywall('pro', 'Premium Features')}
+                    className="w-full flex items-center gap-2 p-3 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-sm font-semibold hover:shadow-lg transition-all active:scale-[0.97]"
+                  >
+                    <Crown size={16} />
+                    <span>Upgrade to Pro</span>
+                  </button>
+                ) : (
+                  <div className="flex items-center gap-2 p-3 rounded-xl bg-white/10 dark:bg-white/5">
+                    <Sparkles size={16} className="text-amber-400" />
+                    <span className="text-sm font-medium text-amber-200 dark:text-amber-400">
+                      {subscriptionTier === 'ai_pro' ? 'AI Pro' : subscriptionTier === 'business' ? 'Business' : 'Pro'}
+                    </span>
+                    <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full bg-green-400/20 text-green-300 font-semibold">Active</span>
+                  </div>
+                )}
               </div>
 
-              <hr className="my-2 border-indigo-400 dark:border-gray-700" />
+              <div className="mt-auto"></div>
+
+              <hr className="my-2 border-indigo-400" />
               <button
                 onClick={handleLogout}
                 className="flex items-center gap-3 w-full py-2 px-4 rounded-lg text-left text-red-200 hover:bg-red-500 hover:text-white dark:text-red-400 dark:hover:bg-red-500/20 transition"

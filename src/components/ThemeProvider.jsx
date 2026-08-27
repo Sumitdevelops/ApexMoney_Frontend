@@ -1,6 +1,6 @@
 // src/components/ThemeProvider.jsx
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 
 const ThemeContext = createContext({
   theme: 'light',
@@ -13,29 +13,18 @@ export function useTheme() {
 }
 
 export function ThemeProvider({ children }) {
-  const [theme, setThemeState] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('apexmoney-theme') || 'light';
-    }
-    return 'light';
-  });
+  // Always use light theme
+  const theme = 'light';
 
   useEffect(() => {
-    const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    localStorage.setItem('apexmoney-theme', theme);
-  }, [theme]);
-
-  const setTheme = (t) => setThemeState(t);
-  const toggleTheme = () => setThemeState((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    // Ensure dark class is removed and stays removed
+    document.documentElement.classList.remove('dark');
+    localStorage.removeItem('apexmoney-theme');
+  }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme: () => {}, toggleTheme: () => {} }}>
       {children}
     </ThemeContext.Provider>
   );
-}
+}
