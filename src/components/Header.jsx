@@ -9,7 +9,7 @@ import {
   ArrowLeftOnRectangleIcon,
   UserCircleIcon
 } from "@heroicons/react/24/outline";
-import ThemeToggle from "./ThemeToggle";
+
 
 const useOutsideClick = (ref, callback) => {
   useEffect(() => {
@@ -164,7 +164,6 @@ const Header = ({ isMenuOpen, toggleMenu }) => {
             </span>
 
             <div className="flex items-center gap-2 lg:hidden">
-              <ThemeToggle />
               <button
                 onClick={toggleMenu}
                 aria-label="Toggle menu"
@@ -194,7 +193,6 @@ const Header = ({ isMenuOpen, toggleMenu }) => {
           </nav>
 
           <div className="hidden lg:flex items-center gap-4">
-            <ThemeToggle />
             {loading ? (
               <div className="h-10 w-24 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
             ) : user ? (

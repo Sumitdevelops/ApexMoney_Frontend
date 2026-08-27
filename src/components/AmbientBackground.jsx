@@ -7,9 +7,9 @@ import { useTheme } from './ThemeProvider';
 const AmbientBackground = () => {
   const { theme } = useTheme();
 
-  // Stars
+  // Stars — reduced from 60 to 30 for performance
   const stars = useMemo(() => {
-    return Array.from({ length: 60 }, (_, i) => ({
+    return Array.from({ length: 30 }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
       top: Math.random() * 100,
@@ -20,9 +20,9 @@ const AmbientBackground = () => {
     }));
   }, []);
 
-  // Fireflies / embers
+  // Fireflies / embers — reduced from 15 to 8
   const fireflies = useMemo(() => {
-    return Array.from({ length: 15 }, (_, i) => ({
+    return Array.from({ length: 8 }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
       top: Math.random() * 100,
@@ -51,9 +51,9 @@ const AmbientBackground = () => {
     { id: 2, size: 16, top: 35, left: 60, color1: '#34d399', color2: '#059669', ring: false, duration: 120, delay: 10 },
   ], []);
 
-  // Asteroids
+  // Asteroids — reduced from 8 to 4
   const asteroids = useMemo(() => {
-    return Array.from({ length: 8 }, (_, i) => ({
+    return Array.from({ length: 4 }, (_, i) => ({
       id: i,
       size: Math.random() * 6 + 3,
       startTop: Math.random() * 80 + 10,
@@ -63,11 +63,10 @@ const AmbientBackground = () => {
     }));
   }, []);
 
-  // Spaceships
+  // Spaceships — reduced from 3 to 2
   const spaceships = useMemo(() => [
     { id: 0, top: 25, delay: 0, duration: 18, size: 14 },
     { id: 1, top: 55, delay: 12, duration: 22, size: 10 },
-    { id: 2, top: 80, delay: 6, duration: 15, size: 12 },
   ], []);
 
   if (theme !== 'dark') return null;

@@ -1,18 +1,17 @@
 import React, { lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Target, CreditCard, FileDown, Moon, Sun, LogOut,
-  ChevronRight, Shield, FileText, Trash2, User
+  Target, CreditCard, FileDown, LogOut,
+  ChevronRight, Shield, FileText, User, Crown, Sparkles
 } from 'lucide-react';
 import { useUser } from '../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
-import { useTheme } from '../ThemeProvider';
-import ThemeToggle from '../ThemeToggle';
+
 
 const ProfileScreen = ({ onNavigate }) => {
-  const { user, logout } = useUser();
+  const { user, logout, subscriptionTier, requireTierOrPaywall } = useUser();
   const navigate = useNavigate();
-  const { theme } = useTheme();
+
 
   const handleLogout = async () => {
     await logout();
@@ -54,6 +53,45 @@ const ProfileScreen = ({ onNavigate }) => {
         </div>
       </motion.div>
 
+      {/* Subscription Badge */}
+      <motion.div
+        variants={itemVariants}
+        className="bg-white dark:bg-gray-800/80 rounded-2xl shadow-lg dark:shadow-gray-900/30 overflow-hidden"
+      >
+        <div className="p-4">
+          {subscriptionTier === 'free' ? (
+            <button
+              onClick={() => requireTierOrPaywall('pro', 'Premium Features')}
+              className="w-full flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 text-white active:scale-[0.98] transition-transform"
+            >
+              <div className="p-2 bg-white/20 rounded-xl">
+                <Crown size={22} />
+              </div>
+              <div className="flex-1 text-left">
+                <p className="font-bold text-sm">Upgrade to Pro</p>
+                <p className="text-xs text-white/80">Unlock AI insights, unlimited goals & more</p>
+              </div>
+              <ChevronRight size={18} className="text-white/60" />
+            </button>
+          ) : (
+            <div className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-500/10 dark:to-orange-500/10">
+              <div className="p-2 bg-amber-100 dark:bg-amber-500/20 rounded-xl">
+                <Sparkles size={22} className="text-amber-600 dark:text-amber-400" />
+              </div>
+              <div className="flex-1">
+                <p className="font-bold text-sm text-gray-900 dark:text-gray-100">
+                  {subscriptionTier === 'ai_pro' ? 'AI Pro' : subscriptionTier === 'business' ? 'Business' : 'Pro'} Plan
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Premium features active</p>
+              </div>
+              <span className="px-3 py-1 rounded-full bg-green-100 dark:bg-green-500/20 text-green-700 dark:text-green-400 text-xs font-semibold">
+                Active
+              </span>
+            </div>
+          )}
+        </div>
+      </motion.div>
+
       {/* Quick Links */}
       <motion.div variants={itemVariants} className="bg-white dark:bg-gray-800/80 rounded-2xl shadow-lg dark:shadow-gray-900/30 overflow-hidden">
         <div className="px-5 py-3 border-b border-gray-100 dark:border-gray-700">
@@ -74,17 +112,6 @@ const ProfileScreen = ({ onNavigate }) => {
               <ChevronRight size={18} className="text-gray-300 dark:text-gray-600" />
             </motion.button>
           ))}
-        </div>
-      </motion.div>
-
-      {/* Appearance */}
-      <motion.div variants={itemVariants} className="bg-white dark:bg-gray-800/80 rounded-2xl shadow-lg dark:shadow-gray-900/30 overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-4">
-          <div className="flex items-center gap-3">
-            {theme === 'dark' ? <Moon size={20} className="text-amber-400" /> : <Sun size={20} className="text-yellow-500" />}
-            <span className="text-[15px] font-medium text-gray-800 dark:text-gray-200">Dark Mode</span>
-          </div>
-          <ThemeToggle />
         </div>
       </motion.div>
 

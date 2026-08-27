@@ -2,7 +2,8 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, Upload, FileText, Loader2, CheckCircle, X, Sparkles, AlertCircle, Image } from 'lucide-react';
 import axios from 'axios';
-import Tesseract from 'tesseract.js';
+// Tesseract.js is loaded dynamically on demand (see handleFileUpload) to avoid
+// pulling the ~2 MB WASM module into the main bundle.
 
 const BACKEND = import.meta.env.VITE_BACKENDURL;
 
@@ -49,12 +50,14 @@ const ReceiptScanner = ({ onScanComplete, onClose }) => {
             reader.onload = (ev) => setPreviewImage(ev.target.result);
             reader.readAsDataURL(file);
 
-            // Run OCR
+            // Run OCR — dynamically load Tesseract only when needed
             setScanning(true);
             setOcrProgress(0);
-            setOcrStatus('Initializing OCR engine...');
+            setOcrStatus('Loading OCR engine...');
 
             try {
+                const Tesseract = await import('tesseract.js');
+                setOcrStatus('Initializing OCR engine...');
                 const { data } = await Tesseract.recognize(file, 'eng', {
                     logger: (m) => {
                         if (m.status === 'recognizing text') {

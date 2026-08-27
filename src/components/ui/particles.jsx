@@ -1,27 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils"
-
-function MousePosition() {
-  const [mousePosition, setMousePosition] = useState({
-    x: 0,
-    y: 0,
-  })
-
-  useEffect(() => {
-    const handleMouseMove = (event) => {
-      setMousePosition({ x: event.clientX, y: event.clientY })
-    }
-
-    window.addEventListener("mousemove", handleMouseMove)
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-    };
-  }, [])
-
-  return mousePosition
-}
 
 function hexToRgb(hex) {
   hex = hex.replace("#", "")
@@ -56,7 +35,8 @@ export const Particles = ({
   const canvasContainerRef = useRef(null)
   const context = useRef(null)
   const circles = useRef([])
-  const mousePosition = MousePosition()
+  // Use a ref instead of state to avoid re-renders on every mousemove
+  const mousePositionRef = useRef({ x: 0, y: 0 })
   const mouse = useRef({ x: 0, y: 0 })
   const canvasSize = useRef({ w: 0, h: 0 })
   const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1
@@ -79,7 +59,14 @@ export const Particles = ({
       }, 200)
     }
 
+    // Track mouse position via ref (no re-renders)
+    const handleMouseMove = (event) => {
+      mousePositionRef.current = { x: event.clientX, y: event.clientY }
+      onMouseMove()
+    }
+
     window.addEventListener("resize", handleResize)
+    window.addEventListener("mousemove", handleMouseMove)
 
     return () => {
       if (rafID.current != null) {
@@ -89,12 +76,9 @@ export const Particles = ({
         clearTimeout(resizeTimeout.current)
       }
       window.removeEventListener("resize", handleResize)
+      window.removeEventListener("mousemove", handleMouseMove)
     };
   }, [color])
-
-  useEffect(() => {
-    onMouseMove()
-  }, [mousePosition.x, mousePosition.y])
 
   useEffect(() => {
     initCanvas()
@@ -109,8 +93,8 @@ export const Particles = ({
     if (canvasRef.current) {
       const rect = canvasRef.current.getBoundingClientRect()
       const { w, h } = canvasSize.current
-      const x = mousePosition.x - rect.left - w / 2
-      const y = mousePosition.y - rect.top - h / 2
+      const x = mousePositionRef.current.x - rect.left - w / 2
+      const y = mousePositionRef.current.y - rect.top - h / 2
       const inside = x < w / 2 && x > -w / 2 && y < h / 2 && y > -h / 2
       if (inside) {
         mouse.current.x = x
